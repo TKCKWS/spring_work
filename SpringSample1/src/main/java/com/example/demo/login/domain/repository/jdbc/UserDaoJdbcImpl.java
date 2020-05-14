@@ -102,10 +102,14 @@ public class UserDaoJdbcImpl implements UserDao {
         return updateNumber;
     }
 
-    // Userテーブルを１件削除
+    // Userテーブルを1件削除
     @Override
     public int deleteOne(String userId) throws DataAccessException {
-        return 0;
+        // 1件更新
+        int deleteNumber = jdbc.update("DELETE FROM m_user"
+                + " WHERE user_id = ?", userId);
+
+        return deleteNumber;
     }
 
     // SQL取得結果をサーバーにCSVで保存する
