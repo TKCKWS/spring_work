@@ -56,7 +56,11 @@ public class UserDaoJdbcImpl implements UserDao {
     // Userテーブルのデータを１件取得
     @Override
     public User selectOne(String userId) throws DataAccessException {
-        return null;
+        Map<String, Object> map = jdbc.queryForMap(
+                "SELECT * FROM m_user" +
+                " WHERE user_id = ?",userId
+                );
+        return this.setUser(map);
     }
 
     // Userテーブルの全データを取得
@@ -71,18 +75,7 @@ public class UserDaoJdbcImpl implements UserDao {
 
         // 取得したデータを結果返却用のListに格納
         for (Map<String, Object> map : getList) {
-            // Userインスタンスの生成
-            User user = new User();
-
-            user.setUserId((String) map.get("user_id")); // ユーザID
-            user.setPassword((String) map.get("password")); // パスワード
-            user.setUserName((String) map.get("user_name")); // ユーザ名
-            user.setBirthday((Date) map.get("birthday")); //誕生日
-            user.setAge((Integer) map.get("age")); // 年齢
-            user.setMarriage((Boolean) map.get("marriage")); // 結婚ステータス
-            user.setRole((String) map.get("role")); // ロール
-
-            userList.add(user);
+            userList.add(this.setUser(map));
         }
         return userList;
     }
@@ -103,5 +96,20 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public void userCsvOut() throws DataAccessException {
 
+    }
+
+    private User setUser(Map<String,Object> map) {
+        // Userインスタンスの生成
+        User user = new User();
+
+        user.setUserId((String) map.get("user_id")); // ユーザID
+        user.setPassword((String) map.get("password")); // パスワード
+        user.setUserName((String) map.get("user_name")); // ユーザ名
+        user.setBirthday((Date) map.get("birthday")); //誕生日
+        user.setAge((Integer) map.get("age")); // 年齢
+        user.setMarriage((Boolean) map.get("marriage")); // 結婚ステータス
+        user.setRole((String) map.get("role")); // ロール
+
+        return user;
     }
 }
