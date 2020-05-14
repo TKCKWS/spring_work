@@ -53,13 +53,13 @@ public class UserDaoJdbcImpl implements UserDao {
         return insertNumber;
     }
 
-    // Userテーブルのデータを１件取得
+    // Userテーブルのデータを1件取得
     @Override
     public User selectOne(String userId) throws DataAccessException {
         Map<String, Object> map = jdbc.queryForMap(
                 "SELECT * FROM m_user" +
-                " WHERE user_id = ?",userId
-                );
+                        " WHERE user_id = ?",
+                userId);
         return this.setUser(map);
     }
 
@@ -80,10 +80,26 @@ public class UserDaoJdbcImpl implements UserDao {
         return userList;
     }
 
-    // Userテーブルを１件更新
+    // Userテーブルを1件更新
     @Override
     public int updateOne(User user) throws DataAccessException {
-        return 0;
+        // 1件更新
+        int updateNumber = jdbc.update("UPDATE m_user"
+                + " SET"
+                + " password = ?,"
+                + " user_name = ?,"
+                + " birthday = ?,"
+                + " age = ?,"
+                + " marriage = ?"
+                + " WHERE user_id = ?",
+                user.getPassword(),
+                user.getUserName(),
+                user.getBirthday(),
+                user.getAge(),
+                user.isMarriage(),
+                user.getUserId());
+
+        return updateNumber;
     }
 
     // Userテーブルを１件削除
@@ -98,7 +114,7 @@ public class UserDaoJdbcImpl implements UserDao {
 
     }
 
-    private User setUser(Map<String,Object> map) {
+    private User setUser(Map<String, Object> map) {
         // Userインスタンスの生成
         User user = new User();
 
