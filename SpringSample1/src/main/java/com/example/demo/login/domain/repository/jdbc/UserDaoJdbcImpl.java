@@ -99,6 +99,11 @@ public class UserDaoJdbcImpl implements UserDao {
                 user.isMarriage(),
                 user.getUserId());
 
+//        // トランザクション確認のため、わざと例外をthrow
+//        if (updateNumber > 0) {
+//            throw new DataAccessException("トランザクションテスト") {};
+//        }
+
         return updateNumber;
     }
 
