@@ -24,7 +24,7 @@ public class UserDaoNamedJdbcImpl implements UserDao {
     @Override
     public int count() {
 
-        // SQL分
+        // SQL文
         String sql = "SELECT COUNT(*) FROM m_user";
 
         // パラメーター生成
