@@ -3,9 +3,12 @@ package com.example.demo.login.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +19,7 @@ import com.example.demo.login.domain.service.RestService;
 public class UserRestController {
 
     @Autowired
+    @Qualifier("RestServiceMybatisImpl")
     RestService service;
 
     /**
@@ -44,6 +48,48 @@ public class UserRestController {
 
         // ユーザーを1件登録
         boolean result = service.insert(user);
+
+        String str = "";
+
+        if (result == true) {
+            str = "{\"result\":\"ok\"}";
+        } else {
+            str = "{\"result\":\"error\"}";
+        }
+
+        // 結果用の文字列をリターン
+        return str;
+    }
+
+    /**
+     * ユーザ1件更新用処理
+     */
+    @PutMapping("/rest/update")
+    public String putUserOne(@RequestBody User user) {
+
+        // ユーザーを1件登録
+        boolean result = service.update(user);
+
+        String str = "";
+
+        if (result == true) {
+            str = "{\"result\":\"ok\"}";
+        } else {
+            str = "{\"result\":\"error\"}";
+        }
+
+        // 結果用の文字列をリターン
+        return str;
+    }
+
+    /**
+     * ユーザ1件削除用処理
+     */
+    @DeleteMapping("/rest/delete/{id:.+}")
+    public String DeleteUserOne(@PathVariable("id") String userId) {
+
+        // ユーザーを1件登録
+        boolean result = service.delete(userId);
 
         String str = "";
 
