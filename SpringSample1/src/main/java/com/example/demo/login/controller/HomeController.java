@@ -225,10 +225,10 @@ public class HomeController {
     @GetMapping("/admin")
     public String getAdmin(Model model) {
 
-        //コンテンツ部分にユーザー詳細を表示するための文字列を登録
+        // コンテンツ部分にユーザー詳細を表示するための文字列を登録
         model.addAttribute("contents", "login/admin :: admin_contents");
 
-        //レイアウト用テンプレート
+        // レイアウト用テンプレート
         return "login/homeLayout";
     }
 }
